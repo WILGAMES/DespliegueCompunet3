@@ -1,0 +1,16 @@
+node_modules
+dist
+coverage
+.git
+.github
+.env
+.env.*
+!.env.example
+test
+scripts
+*.md
+pruebas-postman.json
+docker-compose.yml
+Dockerfile
+.dockerignore
+tsconfig.build.tsbuildinfo

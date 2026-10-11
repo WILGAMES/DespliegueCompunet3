@@ -1,0 +1,6 @@
+export enum AuctionStatus {
+  SCHEDULED = 'SCHEDULED',
+  ACTIVE = 'ACTIVE',
+  FINISHED = 'FINISHED',
+  CANCELLED = 'CANCELLED',
+}

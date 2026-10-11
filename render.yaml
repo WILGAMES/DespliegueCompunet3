@@ -1,0 +1,55 @@
+# Blueprint de Render: https://render.com/docs/blueprint-spec
+# Despliega la API desde el Dockerfile. La base de datos es Supabase (externa).
+# Las variables con `sync: false` se piden en el panel de Render al crear el servicio.
+services:
+  - type: web
+    name: colsubastas-api
+    runtime: docker
+    plan: free
+    region: oregon
+    branch: main
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TZ
+        value: UTC
+      # Detrás del balanceador de Render: IP real para el límite de peticiones
+      - key: TRUST_PROXY
+        value: "1"
+
+      # --- Base de datos (Supabase, Session pooler) ---
+      - key: DB_HOST
+        sync: false
+      - key: POSTGRES_PORT
+        value: "5432"
+      - key: POSTGRES_USER
+        sync: false
+      - key: POSTGRES_PASSWORD
+        sync: false
+      - key: POSTGRES_DB
+        value: postgres
+      - key: DB_SSL
+        value: "true"
+      # Las tablas ya existen: no alterar el esquema automáticamente
+      - key: DB_SYNCHRONIZE
+        value: "false"
+
+      # --- Aplicación ---
+      - key: JWT_SECRET
+        generateValue: true
+      - key: SEED_ADMIN_PASSWORD
+        sync: false
+      - key: SEED_DEMO_DATA
+        value: "true"
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-3.8-flash
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: SWAGGER_USER
+        sync: false
+      - key: SWAGGER_PASSWORD
+        sync: false
